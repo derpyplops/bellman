@@ -4,3 +4,4 @@ venv/*
 *.swp
 *.json
 scraper/venv/
+*.csv

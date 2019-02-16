@@ -1,4 +1,5 @@
 import json
+import csv
 
 
 # Turn reports into line graph friendly data
@@ -7,7 +8,7 @@ import json
 
 
 SOURCE_PATH = "../pipeline_00/fake_data_all.json"
-OUTPUT_PATH = "longitudinal.json"
+OUTPUT_PATH = "longitudinal.csv"
 
 
 reports_raw = open(SOURCE_PATH, "r").read()
@@ -16,25 +17,35 @@ reports = json.loads(reports_raw)
 
 counter = {}
 for report in reports:
-    counter_id = "{}..{}".format(
-            report["date"],
-            report["topic"]
-            )
-    if counter_id not in counter:
-        counter[counter_id] = 0
-    counter[counter_id] += 1
+    year = report["date"].split("-")[-1]
+    topic = report["topic"]
+    if year not in counter:
+        counter[year] = {
+                "year": year,
+                "healthcare": 0,
+                "cyber-security": 0,
+                "housing": 0,
+                "savings": 0,
+                "reserves": 0,
+                "welfare": 0,
+                "education": 0,
+                "law": 0
+                }
+    counter[year][topic] += 1
 
-
-output = []
-for counter_id in counter:
-    (date, topic) = counter_id.split("..")
-    output.append({
-        "date": date,
-        "topic": topic,
-        "count": counter[counter_id]
-        })
-
-
-open(OUTPUT_PATH, "w").write(
-        json.dumps(output)
-        )
+with open(OUTPUT_PATH, "w") as csvfile:
+    fieldnames = [
+            "year",
+            "healthcare",
+            "cyber-security",
+            "housing",
+            "savings",
+            "reserves",
+            "welfare",
+            "education",
+            "law"
+            ]
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for year in counter:
+        writer.writerow(counter[year])
