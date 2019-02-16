@@ -16,6 +16,22 @@ def getSearchResponse():
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
     return response
 
+def getTextResponse():
+    url = "https://sprs.parl.gov.sg/search/getHansardTopic/"
+
+    querystring = {"":"","id":"oral-answer-1879"}
+
+    payload = "{method: null, headers: {Content-Type: [\"application/json\"]}, body: null, url: null}\r\nbody: null\r\nheaders: {Content-Type: [\"application/json\"]}\r\nContent-Type: [\"application/json\"]\r\n0: \"application/json\"\r\nmethod: null\r\nresponseType: null\r\nurl: null\r\nwithCredentials: null"
+    headers = {
+        'Content-Type': "application/json",
+        'cache-control': "no-cache",
+        'Postman-Token': "99436b1b-e33f-4dd1-aa40-a4051d013406"
+        }
+
+    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
+
+    return response
+
 searchResponse = getSearchResponse() 
 
 def generateReportUrl(reportId):
@@ -27,6 +43,9 @@ def getReportIds(jsonObject):
         reportIds.append(entry["reportId"])
     return reportIds
 
-for reportId in getReportIds(searchResponse.json()):
-    urls = []
-    urls.append(generateReportUrl(reportId))
+urls = []
+
+# for reportId in getReportIds(searchResponse.json()):
+#     urls.append(generateReportUrl(reportId))
+
+print(getTextResponse().json()["resultHTML"]["content"])
