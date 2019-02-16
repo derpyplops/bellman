@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<script>
+
+fetch("/q?page=home")
+  .then((resp) => resp.json())
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+</script>
+{% endblock %}
