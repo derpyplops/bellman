@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Review Something to Address Such and Such Problem",
+    "type": "oral-answer",
+    "topic": "healthcare",
+    "date": "15-1-2019",
+    "id": "oral-answer-1874#",
+    "mps": [
+      "Da An",
+      "Zuo Zhong Tong"
+    ],
+    "content": [
+      {
+        "mp": "Cha Chee Lau",
+        "text": [
+          "I thank the Senior Minister of State for the very comprehensive answer. I have two supplementary questions. Firstly, for such an eye operation which I would imagine is quite common for elderly and with the ageing population, it will be imperative that we keep the cost affordable for them.",
+          "So, since SNEC is reviewing its charges, will MOH also ensure other public hospitals or other healthcare institutions offering similar procedures also review their charges to make sure that they are on par and therefore ensure affordability for elderly citizens. That is the first question."
+        ]
+      },
+      {
+        "mp": "Zuo Zhong Tong",
+        "text": [
+          "For bills that exceed the claim limit, patient’s co-payment will include the remaining bill not covered by MediShield Life. These bills tend to be for more complex cases or where patients received lower means-tested subsidies because of their higher income."
+        ]
+      }
+    ]
+  }
+]
