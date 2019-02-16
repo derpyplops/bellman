@@ -8,7 +8,7 @@ import csv
 
 
 SOURCE_PATH = "../pipeline_00/fake_data_all.json"
-OUTPUT_PATH = "longitudinal.csv"
+OUTPUT_PATH = "longitudinal.json"
 
 
 reports_raw = open(SOURCE_PATH, "r").read()
@@ -17,35 +17,38 @@ reports = json.loads(reports_raw)
 
 counter = {}
 for report in reports:
-    year = report["date"].split("-")[-1]
+    year = int(report["date"].split("-")[-1])
+    decade = year/10*10
     topic = report["topic"]
-    if year not in counter:
-        counter[year] = {
-                "year": year,
-                "healthcare": 0,
-                "cyber-security": 0,
-                "housing": 0,
-                "savings": 0,
-                "reserves": 0,
-                "welfare": 0,
-                "education": 0,
-                "law": 0
+    if topic not in counter:
+        counter[topic] = {
+                1950: 0,
+                1960: 0,
+                1970: 0,
+                1980: 0,
+                1990: 0,
+                2000: 0,
+                2010: 0
                 }
-    counter[year][topic] += 1
+    counter[topic][decade] += 1
 
-with open(OUTPUT_PATH, "w") as csvfile:
-    fieldnames = [
-            "year",
-            "healthcare",
-            "cyber-security",
-            "housing",
-            "savings",
-            "reserves",
-            "welfare",
-            "education",
-            "law"
+
+output = []
+for topic in counter:
+    data = [
+            counter[topic][1950],
+            counter[topic][1960],
+            counter[topic][1970],
+            counter[topic][1980],
+            counter[topic][1990],
+            counter[topic][2000],
+            counter[topic][2010]
             ]
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-    writer.writeheader()
-    for year in counter:
-        writer.writerow(counter[year])
+    output.append({
+        "label": topic,
+        "data": data,
+        })
+
+open(OUTPUT_PATH, "w").write(
+        json.dumps(output)
+        )

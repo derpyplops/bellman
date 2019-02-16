@@ -48,8 +48,8 @@ def generate_topic(cur_year, max_year):
         else:
             initial = topics[topic]["initial"]
             last = topics[topic]["last"]
-            expected = (last - initial)/2.0 + random.normalvariate(0, 5)
-            expected = abs(int(expected))
+            expected = (last - initial)/2.0
+            expected = int(expected)
         choose_from_list += [topic] * expected
     return random.choice(choose_from_list)
 

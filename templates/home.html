@@ -8,12 +8,63 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-<canvas id="speedChart" width="50" height="50"></canvas>
+<canvas id="longitudinalChart" width="50" height="50"></canvas>
 <script>
-var speedCanvas = document.getElementById("speedChart");
+fetch("/static/longitudinal.json")
+  .then(response => response.json())
+  .then((data) => {
+    drawGraph(data, "longitudinalChart");
+  });
 
-Chart.defaults.global.defaultFontFamily = "Neuton";
-Chart.defaults.global.defaultFontSize = 18;
+const drawGraph = (data, elemId) => {
+  let colors = [
+    "#396ab1",
+    "#da7c30",
+    "#3e9651",
+    "#cc2529",
+    "#535154",
+    "#6b4c9a",
+    "#922428",
+    "#948b3d"
+    ];
+  let canvas = document.getElementById(elemId);
+  Chart.defaults.global.defaultFontFamily = "Neuton";
+  Chart.defaults.global.defaultFontSize = 18;
+  data.forEach((series, i) => {
+    series["lineTension"] = 0.3;
+    series["fill"] = false;
+    series["borderColor"] = colors[i];
+    series["pointBackgroundColor"] = colors[i];
+    series["backgroundColor"] = "transparent";
+    series["pointRadius"] = 5;
+    series["pointHoverRadius"] = 15;
+  });
+  let dataContainer = {
+    labels: ["1950", "1960", "1970", "1980", "1990", "2000", "2010"],
+    datasets: data
+  };
+  let chartOptions = {
+    legend: {
+      display: true,
+      position: 'top',
+      labels: {
+        boxWidth: 20,
+        fontColor: 'black'
+      }
+    },
+    layout: {
+      padding: {
+        left: 5,
+        right: 5
+      }
+    }
+  };
+  let lineChart = new Chart(canvas, {
+    type: 'line',
+    data: dataContainer,
+    options: chartOptions
+  });
+};
 
 var dataFirst = {
     label: "Car A - Speed (mph)",
@@ -41,33 +92,5 @@ var dataSecond = {
     pointHitRadius: 30,
     pointBorderWidth: 2
   };
-
-var speedData = {
-  labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"],
-  datasets: [dataFirst, dataSecond]
-};
-
-var chartOptions = {
-  legend: {
-    display: true,
-    position: 'top',
-    labels: {
-      boxWidth: 20,
-      fontColor: 'black'
-    }
-  },
-  layout: {
-    padding: {
-      left: 5,
-      right: 5
-    }
-  }
-};
-
-var lineChart = new Chart(speedCanvas, {
-  type: 'line',
-  data: speedData,
-  options: chartOptions
-});
 </script>
 {% endblock %}
