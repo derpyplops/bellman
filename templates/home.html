@@ -13,10 +13,10 @@
 fetch("/static/longitudinal.json")
   .then(response => response.json())
   .then((data) => {
-    drawGraph(data, "longitudinalChart");
+    drawGraph(data, "longitudinalChart", "law");
   });
 
-const drawGraph = (data, elemId) => {
+const drawGraph = (data, elemId, showSeries) => {
   let colors = [
     "#396ab1",
     "#da7c30",
@@ -38,6 +38,9 @@ const drawGraph = (data, elemId) => {
     series["backgroundColor"] = "transparent";
     series["pointRadius"] = 5;
     series["pointHoverRadius"] = 15;
+    if (showSeries !== series["label"]) {
+      series["hidden"] = true;
+    }
   });
   let dataContainer = {
     labels: ["1950", "1960", "1970", "1980", "1990", "2000", "2010"],
