@@ -3,3 +3,4 @@ settings.py
 venv/*
 *.swp
 *.json
+scraper/venv/
