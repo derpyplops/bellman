@@ -1,5 +1,6 @@
 import json
 import random
+import copy
 
 
 def generate_topic(cur_year, max_year):
@@ -63,8 +64,9 @@ for i in range(50):
     for _ in range(365):
         topic = generate_topic(i, 49)
         print(topic)
-        example["topic"] = topic
-        generated.append(example)
+        example_copy = copy.deepcopy(example)
+        example_copy["topic"] = topic
+        generated.append(example_copy)
 
 open("fake_data.json", "w").write(
         json.dumps(generated)
